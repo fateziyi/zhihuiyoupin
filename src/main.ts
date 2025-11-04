@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from '@/App.vue'
 //引入模板的全局的样式
-import '@/styles/index.sass'
+import '@/styles/index.scss'
 //引入element-plus插件与样式
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -17,7 +17,7 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 // 引入路由
 import router from './router'
 //引入仓库
-// import pinia from './store'
+import pinia from './store'
 //获取应用实例对象
 const app = createApp(App)
 //安装element-plus插件
@@ -27,7 +27,7 @@ app.use(ElementPlus, {
 //安装自定义插件
 app.use(globalComponent)
 //安装仓库
-// app.use(pinia)
+app.use(pinia)
 //注册模板路由
 app.use(router)
 //引入路由鉴权文件

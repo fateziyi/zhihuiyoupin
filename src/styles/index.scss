@@ -1,0 +1,4 @@
+@use "./variable.scss" as *;
+@use "./reset.scss";
+
+// 移除自定义滚动条样式，使用 Element Plus 的 el-scrollbar 组件

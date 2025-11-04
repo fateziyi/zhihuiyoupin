@@ -1,6 +1,12 @@
 // 对外暴露配置路由(常量路由)
 export const constantRoute = [
   {
+    // 根路径重定向到登录页
+    path: '/',
+    redirect: '/login',
+    name: 'root'
+  },
+  {
     // 登录
     path: '/login',
     component: () => import('@/views/login/index.vue'),
@@ -9,7 +15,7 @@ export const constantRoute = [
   {
     // 首页
     path: '/home',
-    component: () => import('@/views/home/index.vue'),
+    component: () => import('@/layout/index.vue'),
     name: 'layout'
   },
   {

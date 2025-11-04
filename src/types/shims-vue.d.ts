@@ -1,11 +1,10 @@
 declare module '*.vue' {
-  import { DefineComponent } from 'vue'
+  import type { DefineComponent } from 'vue'
   const component: DefineComponent<{}, {}, any>
   export default component
 }
 
-declare module '@/utils/request' {
-  import { AxiosInstance } from 'axios'
-  const request: AxiosInstance
-  export default request
+declare module '@/store/modules/user' {
+  const useUserStore: any
+  export default useUserStore
 }

@@ -28,9 +28,9 @@ export default defineConfig(({ command, mode }) => {
     //sass全局变量一个配置
     css: {
       preprocessorOptions: {
-        sass: {
+        scss: {
           javascriptEnabled: true,
-          additionalData: '@use "@/styles/variable.sass" as *\n',
+          additionalData: '@use "@/styles/variable.scss" as *;\n',
         },
       },
     },
