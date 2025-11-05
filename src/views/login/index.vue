@@ -57,7 +57,7 @@ export default defineComponent({
         // 保证登录成功
         await useStore.userLogin(loginForm)
         // 编程式导航跳转到展示数据的首页
-        $router.push('/home')
+        $router.push('/')
         // 登录成功提示信息
         ElNotification({
           title: `Hello,${getTime()}`,

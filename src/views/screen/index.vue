@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>首页</h1>
+    <h1>数据大屏一级路由</h1>
   </div>
 </template>
 
