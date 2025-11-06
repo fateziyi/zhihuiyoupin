@@ -5,19 +5,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 // 引入设置logo和标题的配置文件
 import setting from '../../setting'
 
-export default defineComponent({
-  name: 'Logo',
-  setup() {
-    return {
-      setting,
-    }
-  },
+defineOptions({
+  name: 'Logo'
 })
+</script>
+
+<script lang="ts">
+export default {
+  name: 'Logo'
+}
 </script>
 
 <style scoped lang="scss">
@@ -27,7 +27,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   margin-top: 10px;
-  padding: 8px;
+  padding: 9px;
   box-sizing: border-box;
   color: black;
   img {

@@ -3,7 +3,11 @@
     <template v-for="item in menuList" :key="item.path">
       <!-- 没有子路由 -->
       <template v-if="!item.children">
-        <el-menu-item v-if="!item.meta?.hidden" :index="item.path" @click="goRoute"> 
+        <el-menu-item
+          v-if="!item.meta?.hidden"
+          :index="item.path"
+          @click="goRoute"
+        >
           <el-icon>
             <component :is="item.meta.icon"></component>
           </el-icon>
@@ -14,7 +18,11 @@
       </template>
       <!-- 有一个子路由 -->
       <template v-else-if="item.children && item.children.length == 1">
-        <el-menu-item v-if="!item.children[0].meta?.hidden" :index="item.children[0].path" @click="goRoute">
+        <el-menu-item
+          v-if="!item.children[0].meta?.hidden"
+          :index="item.children[0].path"
+          @click="goRoute"
+        >
           <el-icon>
             <component :is="item.children[0].meta.icon"></component>
           </el-icon>
@@ -24,7 +32,10 @@
         </el-menu-item>
       </template>
       <!-- 有子路由且个数大于一 -->
-      <el-sub-menu v-else-if="item.children && item.children.length > 1" :index="item.path">
+      <el-sub-menu
+        v-else-if="item.children && item.children.length > 1"
+        :index="item.path"
+      >
         <template #title>
           <el-icon>
             <component :is="item.meta.icon"></component>
@@ -38,32 +49,30 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import type { PropType } from 'vue'
 import { useRouter } from 'vue-router'
 
-export default defineComponent({
-  name: 'Menu',
-  props: {
-    menuList: {
-      type: Array as PropType<any[]>,
-      required: true
-    }
+const props = defineProps({
+  menuList: {
+    type: Array as PropType<any[]>,
+    required: true,
   },
-  setup () {
-    // 获取路由器对象
-    const $router = useRouter()
-    // 点击菜单的回调
-    const goRoute = (vc: any) => {
-      // 修复路由跳转逻辑
-      $router.push(vc.index)
-    }
-    return {
-      goRoute
-    }
-  }
 })
+
+// 获取路由器对象
+const $router = useRouter()
+// 点击菜单的回调
+const goRoute = (vc: any) => {
+  // 修复路由跳转逻辑
+  $router.push(vc.index)
+}
+</script>
+
+<script lang="ts">
+export default {
+  name: 'Menu'
+}
 </script>
 
 <style scoped lang="scss">

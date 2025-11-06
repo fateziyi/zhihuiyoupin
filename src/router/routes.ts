@@ -16,9 +16,9 @@ export const constantRoute: RouteRecordRaw[] = [
     // 首页
     path: '/',
     component: () => import('@/layout/index.vue'),
-    name: 'layout',
+    // name: 'layout',
     meta: {
-      title: 'layout',
+      // title: 'layout',
       hidden: false
     },
     redirect: '/home',
