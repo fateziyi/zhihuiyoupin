@@ -9,6 +9,7 @@ import type { UserState } from './types/type'
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from '@/utils/token'
 // 引入路由（常量路由）
 import { constantRoute } from "@/router/routes"
+import { useRouter } from "vue-router"
 
 // 创建用户仓库
 //创建用户小仓库
@@ -18,6 +19,8 @@ const useUserStore = defineStore('User', {
     return {
       token: GET_TOKEN(), //用户唯一标识token
       menuRoutes: constantRoute, //仓库存储生成菜单需要数组(路由)
+      username: '', //用户名
+      avatar: '' //用户头像
     }
   },
   //异步|逻辑的地方
@@ -31,15 +34,37 @@ const useUserStore = defineStore('User', {
       if (result.code == 200) {
         //pinia仓库存储一下token
         //由于pinia|vuex存储数据其实利用js对象
-        this.token = result.data as string
+        this.token = result.data.token!
         //本地存储持久化存储一份
-        SET_TOKEN(result.data as string)
+        SET_TOKEN(result.data.token!)
         //能保证当前async函数返回一个成功的promise
         return 'ok'
       } else {
         return Promise.reject(new Error(result.data.message || '登录失败'))
       }
     },
+    // 获取用户信息方法
+    async userInfo() {
+      // 获取用户信息存储于仓库
+      let result: userResponseData = await reqUserInfo()
+      // 如果获取用户信息成功，存储用户信息
+      if (result.code == 200) {
+        this.username = result.data.checkUser.username
+        this.avatar = result.data.checkUser.avatar
+        return 'ok'
+      } else {
+        return Promise.reject(new Error('获取用户信息失败'))
+      }
+    },
+    // 退出登录方法
+    async userLogout() {
+      // 退出登录，pinia仓库数据清空
+      this.token = null
+      this.username = ''
+      this.avatar = ''
+      // 本地存储数据清空
+      REMOVE_TOKEN()
+    }
   }
 })
 

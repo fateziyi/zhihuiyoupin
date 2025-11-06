@@ -29,11 +29,13 @@ defineOptions({
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
+
   .tabbar_left {
     display: flex;
     align-items: center;
     margin-left: 20px;
   }
+
   .tabbar_right {
     display: flex;
     align-items: center;

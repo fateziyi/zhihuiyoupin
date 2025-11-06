@@ -57,6 +57,7 @@ import { useRoute } from 'vue-router'
 // 引入用户相关的小仓库
 import useUserStore from '../store/modules/user'
 import useLayoutSettingStore from '../store/modules/setting'
+import { onMounted } from 'vue'
 
 defineOptions({
   name: 'Layout'
@@ -65,6 +66,13 @@ defineOptions({
 const userStore = useUserStore()
 const LayoutsettingStore = useLayoutSettingStore()
 const $route = useRoute()
+
+// 在组件挂载时获取用户信息
+onMounted(() => {
+  userStore.userInfo().catch(error => {
+    console.error('获取用户信息失败:', error)
+  })
+})
 </script>
 
 <style scoped lang="scss">

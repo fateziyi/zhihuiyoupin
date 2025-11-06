@@ -50,7 +50,7 @@
 import { Lock, User } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import useUserStore from '../../store/modules/user'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { getTime } from '../../utils/time'
 
@@ -65,6 +65,8 @@ let loading = ref(false)
 const useStore = useUserStore()
 // 获取路由实例
 const $router = useRouter()
+// 获取路由对象
+const $route = useRoute()
 // 获取el-form实例
 const loginForms = ref()
 // 登录按钮回调
@@ -79,8 +81,12 @@ const login = async () => {
   try {
     // 保证登录成功
     await useStore.userLogin(loginForm)
+    // 获取用户信息
+    await useStore.userInfo()
     // 编程式导航跳转到展示数据的首页
-    $router.push('/')
+    // 判断登录的时候，路由路径当中是否有query参数，如果有就往query参数跳转，没有就跳转到首页
+    let redirect:any = $route.query.redirect
+    $router.push({path:redirect|| '/'})
     // 登录成功提示信息
     ElNotification({
       title: `Hello,${getTime()}`,

@@ -21,20 +21,20 @@
       circle
     ></el-button>
     <img
-      src="../../../../public/Avatar.jpg"
-      style="width: 32px; height: 32px; margin: 0 20px"
+      :src="userStore.avatar"
+      style="width: 32px; height: 32px; margin: 0 20px; border-radius: 50%;"
     />
     <!-- 下拉菜单 -->
     <el-dropdown style="cursor: pointer">
       <span class="el-dropdown-link">
-        admin
+        {{ userStore.username }}
         <el-icon class="el-icon--right">
           <ArrowDown />
         </el-icon>
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>退出登录</el-dropdown-item>
+          <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -42,17 +42,20 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter,useRoute } from 'vue-router'
 import { computed } from 'vue'
+// 引入操作本地存储的工具方法
+// 获取用户相关的小仓库
 import useUserStore from '../../../store/modules/user'
+// 获取骨架的小仓库
 import useLayoutSettingStore from '../../../store/modules/setting'
 
 defineOptions({
   name: 'Setting'
 })
 
-const route = useRoute()
-const router = useRouter()
+const $router = useRouter()
+const $route = useRoute()
 const userStore = useUserStore()
 const LayoutSettingStore = useLayoutSettingStore()
 
@@ -62,16 +65,12 @@ const username = computed(() => {
 })
 
 // 退出登录
-const logout = () => {
+const logout = async () => {
   // 清除用户信息
-  userStore.token = ''
-  REMOVE_TOKEN()
+  await userStore.userLogout()
   // 跳转到登录页面
-  router.push('/login')
+  $router.push({ path: '/login' ,query: { redirect: $route.path }})
 }
-
-// 引入操作本地存储的工具方法
-import { REMOVE_TOKEN } from '../../../utils/token'
 
 const updateRefresh = () => {
   LayoutSettingStore.refresh = !LayoutSettingStore.refresh
