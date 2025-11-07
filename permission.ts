@@ -40,7 +40,7 @@ router.beforeEach(async (to, from, next) => {
         } catch (error) {
           // token过期|用户信息获取失败->重新登录
           // 清除token
-          userStore.userLogout()
+          await userStore.userLogout()
           next({ path: '/login', query: { redirect: to.path } })
         }
       }

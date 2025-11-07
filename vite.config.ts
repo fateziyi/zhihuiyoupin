@@ -17,7 +17,7 @@ export default defineConfig(({ command, mode }) => {
       symbolId: 'icon-[dir]-[name]',
     }),
     viteMockServe({
-      enable: true, //始终开启mock
+      enable: command === 'serve', // 只在开发阶段启用 mock
     })
     ],
     resolve: {
@@ -43,7 +43,7 @@ export default defineConfig(({ command, mode }) => {
           //需要代理跨域
           changeOrigin: true,
           //路径重写
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: (path) => path.replace(new RegExp(`^${env.VITE_APP_BASE_API}`), ''),
         }
       }
     }

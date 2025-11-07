@@ -3,40 +3,19 @@
     <el-row>
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="24">
-        <el-form
-          class="login_form"
-          :model="loginForm"
-          :rules="rules"
-          ref="loginForms"
-        >
+        <el-form class="login_form" :model="loginForm" :rules="rules" ref="loginForms">
           <h1>你好！</h1>
           <h2>欢迎来到智选优品</h2>
           <el-form-item prop="username">
-            <el-input
-              placeholder="请输入用户名"
-              :prefix-icon="User"
-              v-model="loginForm.username"
-              @keyup.enter="login"
-            ></el-input>
+            <el-input placeholder="请输入用户名" :prefix-icon="User" v-model="loginForm.username"
+              @keyup.enter="login"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input
-              placeholder="请输入密码"
-              type="password"
-              :prefix-icon="Lock"
-              v-model="loginForm.password"
-              show-password
-              @keyup.enter="login"
-            ></el-input>
+            <el-input placeholder="请输入密码" type="password" :prefix-icon="Lock" v-model="loginForm.password" show-password
+              @keyup.enter="login"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button
-              :loading="loading"
-              class="login_btn"
-              type="primary"
-              size="default"
-              @click="login"
-            >
+            <el-button :loading="loading" class="login_btn" type="primary" size="default" @click="login">
               登录
             </el-button>
           </el-form-item>
@@ -56,8 +35,8 @@ import { getTime } from '../../utils/time'
 
 // 收集账号和密码数据
 let loginForm = reactive({
-  username: '',
-  password: '',
+  username: 'admin',
+  password: '111111',
 })
 // 定义变量控制按钮加载效果
 let loading = ref(false)
@@ -85,8 +64,8 @@ const login = async () => {
     await useStore.userInfo()
     // 编程式导航跳转到展示数据的首页
     // 判断登录的时候，路由路径当中是否有query参数，如果有就往query参数跳转，没有就跳转到首页
-    let redirect:any = $route.query.redirect
-    $router.push({path:redirect|| '/'})
+    let redirect: any = $route.query.redirect
+    $router.push({ path: redirect || '/' })
     // 登录成功提示信息
     ElNotification({
       title: `Hello,${getTime()}`,
