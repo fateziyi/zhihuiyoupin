@@ -13,7 +13,7 @@
           <el-table-column label="SPU描述" prop="description" align="center" show-overflow-tooltip></el-table-column>
           <el-table-column label="SPU操作" align="center">
             <template v-slot="{ row, $index }">
-              <el-button type="primary" size="mini" icon="Plus" title="添加SKU"
+              <el-button type="primary" size="mini" icon="Plus" title="添加SKU" @click="addSku"
                 class="table-button add-button"></el-button>
               <el-button @click="updateSpu(row)" type="success" size="mini" icon="Edit" title="修改SPU"
                 class="table-button edit-button"></el-button>
@@ -32,19 +32,20 @@
       <!-- 添加/修改SPU子组件 -->
       <spuForm ref="spu" v-show="scene == 1" @changeScene="changeScene" />
       <!-- 添加/修改SKU子组件 -->
-      <skuForm v-show="scene == 2" />
+      <skuForm v-show="scene == 2" @changeScene="changeScene" />
     </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { reqHasSpu } from '@/api/product/spu'
 import type { HasSpuResponseData, Records, SpuData } from '@/api/product/spu/type'
 // 引入分类的仓库
 import useCategoryStore from '@/store/modules/category'
 import spuForm from './spuForm.vue'
 import skuForm from './skuForm.vue'
+import { ca } from 'element-plus/es/locale'
 let categoryStore = useCategoryStore()
 // 场景的数据
 let scene = ref<number>(0) // 0：显示SPU列表 1：显示添加/修改SPU列表 2：显示添加SKU
@@ -82,17 +83,38 @@ const changeSize = () => {
 // 添加SPU回调
 const addSpu = () => {
   scene.value = 1
+  // 点击添加SPU按钮，调用子组件的方法初始化数据
+  spu.value.initAddSpu(categoryStore.c3Id)
 }
 // 子组件spuForm绑定自定义事件，让子组件通知父组件切换场景为0
-const changeScene = (num: number) => {
+const changeScene = (obj: any) => {
   // 子组件spuForm点击取消变为场景0，展示已有的SPU数据
-  scene.value = num
+  scene.value = obj.flag
+  // 获取已有的SPU数据
+  if (obj.params == 'update') {
+    // 编辑留在当前页
+    getHasSpu(pageNo.value)
+  } else {
+    // 添加留在第一页
+    getHasSpu()
+  }
 }
 // 修改已有的SPU的按钮的回调
 const updateSpu = (row: SpuData) => {
   scene.value = 1
   // 调用子组件实例方法获取完整哟有的SPU数据
   spu.value.initHasSpuData(row)
+}
+
+// 路由组件销毁的时候，把仓库相关的数据清空
+onBeforeUnmount(() => {
+  // 清空仓库的数据
+  categoryStore.$reset()
+})
+
+// 添加SKU按钮的回调
+const addSku = () => {
+  scene.value = 2
 }
 </script>
 
