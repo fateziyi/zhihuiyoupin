@@ -13,7 +13,7 @@
           <el-table-column label="SPU描述" prop="description" align="center" show-overflow-tooltip></el-table-column>
           <el-table-column label="SPU操作" align="center">
             <template v-slot="{ row, $index }">
-              <el-button type="primary" size="mini" icon="Plus" title="添加SKU" @click="addSku"
+              <el-button type="primary" size="mini" icon="Plus" title="添加SKU" @click="addSku(row)"
                 class="table-button add-button"></el-button>
               <el-button @click="updateSpu(row)" type="success" size="mini" icon="Edit" title="修改SPU"
                 class="table-button edit-button"></el-button>
@@ -32,7 +32,7 @@
       <!-- 添加/修改SPU子组件 -->
       <spuForm ref="spu" v-show="scene == 1" @changeScene="changeScene" />
       <!-- 添加/修改SKU子组件 -->
-      <skuForm v-show="scene == 2" @changeScene="changeScene" />
+      <skuForm ref="sku" v-show="scene == 2" @changeScene="changeScene" />
     </el-card>
   </div>
 </template>
@@ -57,8 +57,10 @@ let pageSize = ref<number>(3)
 let records = ref<Records>([])
 // 存储已有的SPU总个数
 let total = ref<number>(0)
-// 获取子组件实例spuForm
+// 获取子组件实例spu
 let spu = ref<any>()
+// 获取子组件实例sku
+let sku = ref<any>()
 // 监听三级分类ID的变化
 watch(() => categoryStore.c3Id, () => {
   // 保证有三级分类ID
@@ -113,8 +115,10 @@ onBeforeUnmount(() => {
 })
 
 // 添加SKU按钮的回调
-const addSku = () => {
+const addSku = (row: SpuData) => {
   scene.value = 2
+  // 调用子组件的方法初始化添加SKU的数据
+  sku.value.initSkuData(categoryStore.c1Id, categoryStore.c2Id, row)
 }
 </script>
 
