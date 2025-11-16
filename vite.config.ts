@@ -36,8 +36,8 @@ export default defineConfig(({ command, mode }) => {
     },
     //代理跨域
     server: {
-      host: '0.0.0.0',
-      port: 8081,
+      host: 'localhost',
+      port: 3000,
       strictPort: false, // 允许自动选择端口
       proxy: {
         [env.VITE_APP_BASE_API]: {

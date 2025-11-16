@@ -30,6 +30,7 @@ export default {
   padding: 9px;
   box-sizing: border-box;
   color: black;
+
   img {
     width: 40px;
     height: 40px;

@@ -3,11 +3,7 @@
     <template v-for="item in menuList" :key="item.path">
       <!-- 没有子路由 -->
       <template v-if="!item.children">
-        <el-menu-item
-          v-if="!item.meta?.hidden"
-          :index="item.path"
-          @click="goRoute"
-        >
+        <el-menu-item v-if="!item.meta?.hidden" :index="item.path" @click="goRoute">
           <el-icon>
             <component :is="item.meta.icon"></component>
           </el-icon>
@@ -18,11 +14,7 @@
       </template>
       <!-- 有一个子路由 -->
       <template v-else-if="item.children && item.children.length == 1">
-        <el-menu-item
-          v-if="!item.children[0].meta?.hidden"
-          :index="item.children[0].path"
-          @click="goRoute"
-        >
+        <el-menu-item v-if="!item.children[0].meta?.hidden" :index="item.children[0].path" @click="goRoute">
           <el-icon>
             <component :is="item.children[0].meta.icon"></component>
           </el-icon>
@@ -32,10 +24,7 @@
         </el-menu-item>
       </template>
       <!-- 有子路由且个数大于一 -->
-      <el-sub-menu
-        v-else-if="item.children && item.children.length > 1"
-        :index="item.path"
-      >
+      <el-sub-menu v-else-if="item.children && item.children.length > 1" :index="item.path">
         <template #title>
           <el-icon>
             <component :is="item.meta.icon"></component>

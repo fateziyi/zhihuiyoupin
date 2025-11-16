@@ -1,19 +1,11 @@
 <template>
   <!-- 顶部左侧静态 -->
-  <el-icon
-    style="margin-right: 10px; cursor: pointer; font-size: 20px"
-    @click="changeIcon"
-  >
+  <el-icon style="margin-right: 10px; cursor: pointer; font-size: 20px" @click="changeIcon">
     <component :is="fold ? 'Expand' : 'Fold'"></component>
   </el-icon>
   <!-- 左侧面包屑 -->
   <el-breadcrumb separator-icon="ArrowRight">
-    <el-breadcrumb-item
-      v-for="(item, index) in $route.matched"
-      :key="index"
-      v-show="item.meta.title"
-      :to="item.path"
-    >
+    <el-breadcrumb-item v-for="(item, index) in $route.matched" :key="index" v-show="item.meta.title" :to="item.path">
       <!-- 图标 -->
       <el-icon style="vertical-align: middle">
         <component :is="item.meta.icon"></component>
@@ -51,5 +43,4 @@ const handler = () => {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
